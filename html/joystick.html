@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="joystick">
+        <div id="knob"></div>
+    </div>
+    
+    <style>
+      #joystick {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        background: #ddd;
+        position: relative;
+        touch-action: none;
+        margin: 50px auto;
+      }
+    
+      #knob {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: #888;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+    </style>
+    
+    <script>
+      const joystick = document.getElementById('joystick');
+      const knob = document.getElementById('knob');
+      let active = false, startX, startY, currentX, currentY;
+    
+      const start = (x, y) => {
+        active = true;
+        startX = x;
+        startY = y;
+      };
+    
+      const move = (x, y) => {
+        if (!active) return;
+        currentX = x - startX;
+        currentY = y - startY;
+        const distance = Math.sqrt(currentX ** 2 + currentY ** 2);
+        if (distance < 50) {
+          knob.style.transform = `translate(${currentX}px, ${currentY}px)`;
+        }
+      };
+    
+      const end = () => {
+        active = false;
+        knob.style.transform = 'translate(-50%, -50%)';
+      };
+    
+      // Touch events
+      joystick.addEventListener('touchstart', (e) => start(e.touches[0].clientX, e.touches[0].clientY));
+      joystick.addEventListener('touchmove', (e) => move(e.touches[0].clientX, e.touches[0].clientY));
+      joystick.addEventListener('touchend', end);
+    
+      // Mouse events
+      joystick.addEventListener('mousedown', (e) => start(e.clientX, e.clientY));
+      joystick.addEventListener('mousemove', (e) => move(e.clientX, e.clientY));
+      joystick.addEventListener('mouseup', end);
+      joystick.addEventListener('mouseleave', end);
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,92 @@
+body {
+    background-color: #dde2e9;
+    padding: 0px;
+    margin: 0px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.app {
+    padding: 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.checkboxes {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 35px;
+}
+
+.checkboxes > label {
+    background-color: #fff;
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 10px;
+    margin-right: 10px;
+    min-width: 75px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.checkboxes > label:last-child {
+    margin: 0px;
+}
+
+.direction-controls {
+    width: 50%;
+    position: relative;
+    height: 100%;
+    border-right: 1px solid #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 50%;
+}
+
+.controls {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: calc(100vh - 70px);
+}
+
+.direction-controls > div {
+    width: 200px;
+    height: 200px;
+    position: fixed;
+    top: 0px;
+    left: 50px;
+    bottom: 0px;
+    margin: auto;
+}
+
+.tools {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.tools > button {
+    margin-bottom: 10px;
+    background-color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.tools > button:active {
+    background-color: #ddc9c9;
+}

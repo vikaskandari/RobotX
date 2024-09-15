@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app">
+        <div class="checkboxes">
+            <label>
+                <input type="checkbox" id="m1" checked>
+                <span>M1</span>
+            </label>
+            <label>
+                <input type="checkbox" id="m2" checked>
+                <span>M2</span>
+            </label>
+            <label>
+                <input type="checkbox" id="m3" checked>
+                <span>M3</span>
+            </label>
+            <label>
+                <input type="checkbox" id="m4" checked>
+                <span>M4</span>
+            </label>
+        </div>
+        <div class="checkboxes">
+            <label>
+                <input type="checkbox" id="s1" checked>
+                <span>S1</span>
+            </label>
+            <label>
+                <input type="checkbox" id="s2" checked>
+                <span>S2</span>
+            </label>
+            <label>
+                <input type="checkbox" id="s3" checked>
+                <span>S3</span>
+            </label>
+            <label>
+                <input type="checkbox" id="s4" checked>
+                <span>S4</span>
+            </label>
+        </div>
+        <div class="controls">
+            <div class="direction-controls">
+                <div id="joystick"></div>
+            </div>
+            <div class="tools">
+                <button onclick="fetch('/toggle-led')">Toogle Led</button>
+                <button  onclick="controlAllMotors('stop')">Stop All</button>
+            </div>
+        </div>
+    </div>
+    <script src="/joy.min.js"></script>
+    <script src="/script.js"></script>
+</body>
+</html>

@@ -6,6 +6,9 @@
 		{
 			"name": "Nodemcu",
 			"path": "Nodemcu"
+		},
+		{
+			"path": "html"
 		}
 	],
 	"settings": {}

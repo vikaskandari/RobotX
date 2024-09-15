@@ -1,0 +1,293 @@
+const char* html = R"rawliteral(
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            background-color: #dde2e9;
+            padding: 0px;
+            margin: 0px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        .app {
+            padding: 0px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            width: 100%;
+        }
+
+        .checkboxes {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            align-items: center;
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            height: 35px;
+        }
+
+        .checkboxes>label {
+            background-color: #fff;
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 10px;
+            margin-right: 10px;
+            min-width: 75px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .checkboxes>label:last-child {
+            margin: 0px;
+        }
+
+        .direction-controls {
+            width: 50%;
+            position: relative;
+            height: 100%;
+            border-right: 1px solid #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 50%;
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            height: calc(100vh - 70px);
+        }
+
+        .direction-controls>div {
+            width: 200px;
+            height: 200px;
+            position: fixed;
+            top: 0px;
+            left: 50px;
+            bottom: 0px;
+            margin: auto;
+        }
+
+        .tools {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .tools>button {
+            margin-bottom: 10px;
+            background-color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .tools>button:active {
+            background-color: #ddc9c9;
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <div class="checkboxes">
+            <label>
+                <input type="checkbox" id="m1" checked>
+                <span>M1</span>
+            </label>
+            <label>
+                <input type="checkbox" id="m2" checked>
+                <span>M2</span>
+            </label>
+            <label>
+                <input type="checkbox" id="m3" checked>
+                <span>M3</span>
+            </label>
+            <label>
+                <input type="checkbox" id="m4" checked>
+                <span>M4</span>
+            </label>
+        </div>
+        <div class="checkboxes">
+            <label>
+                <input type="checkbox" id="s1" checked>
+                <span>S1</span>
+            </label>
+            <label>
+                <input type="checkbox" id="s2" checked>
+                <span>S2</span>
+            </label>
+            <label>
+                <input type="checkbox" id="s3" checked>
+                <span>S3</span>
+            </label>
+            <label>
+                <input type="checkbox" id="s4" checked>
+                <span>S4</span>
+            </label>
+        </div>
+        <div class="controls">
+            <div class="direction-controls">
+                <div id="joystick"></div>
+            </div>
+            <div class="tools">
+                <button onclick="fetch('/toggle-led')">Toogle Led</button>
+                <button onclick="controlAllMotors('stop')">Stop All</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        let StickStatus={xPosition:0,yPosition:0,x:0,y:0,cardinalDirection:"C"};var JoyStick=function(t,e,i){var o=void 0===(e=e||{}).title?"joystick":e.title,n=void 0===e.width?0:e.width,a=void 0===e.height?0:e.height,r=void 0===e.internalFillColor?"#00AA00":e.internalFillColor,c=void 0===e.internalLineWidth?2:e.internalLineWidth,s=void 0===e.internalStrokeColor?"#003300":e.internalStrokeColor,d=void 0===e.externalLineWidth?2:e.externalLineWidth,u=void 0===e.externalStrokeColor?"#008000":e.externalStrokeColor,h=void 0===e.autoReturnToCenter||e.autoReturnToCenter;i=i||function(t){};var S=document.getElementById(t);S.style.touchAction="none";var f=document.createElement("canvas");f.id=o,0===n&&(n=S.clientWidth),0===a&&(a=S.clientHeight),f.width=n,f.height=a,S.appendChild(f);var l=f.getContext("2d"),k=0,g=2*Math.PI,x=(f.width-(f.width/2+10))/2,v=x+5,P=x+30,m=f.width/2,C=f.height/2,p=f.width/10,y=-1*p,w=f.height/10,L=-1*w,F=m,E=C;function W(){l.beginPath(),l.arc(m,C,P,0,g,!1),l.lineWidth=d,l.strokeStyle=u,l.stroke()}function T(){l.beginPath(),F<x&&(F=v),F+x>f.width&&(F=f.width-v),E<x&&(E=v),E+x>f.height&&(E=f.height-v),l.arc(F,E,x,0,g,!1);var t=l.createRadialGradient(m,C,5,m,C,200);t.addColorStop(0,r),t.addColorStop(1,s),l.fillStyle=t,l.fill(),l.lineWidth=c,l.strokeStyle=s,l.stroke()}function D(){let t="",e=F-m,i=E-C;return i>=L&&i<=w&&(t="C"),i<L&&(t="N"),i>w&&(t="S"),e<y&&("C"===t?t="W":t+="W"),e>p&&("C"===t?t="E":t+="E"),t}"ontouchstart"in document.documentElement?(f.addEventListener("touchstart",function(t){k=1},!1),document.addEventListener("touchmove",function(t){1===k&&t.targetTouches[0].target===f&&(F=t.targetTouches[0].pageX,E=t.targetTouches[0].pageY,"BODY"===f.offsetParent.tagName.toUpperCase()?(F-=f.offsetLeft,E-=f.offsetTop):(F-=f.offsetParent.offsetLeft,E-=f.offsetParent.offsetTop),l.clearRect(0,0,f.width,f.height),W(),T(),StickStatus.xPosition=F,StickStatus.yPosition=E,StickStatus.x=((F-m)/v*100).toFixed(),StickStatus.y=((E-C)/v*100*-1).toFixed(),StickStatus.cardinalDirection=D(),i(StickStatus))},!1),document.addEventListener("touchend",function(t){k=0,h&&(F=m,E=C);l.clearRect(0,0,f.width,f.height),W(),T(),StickStatus.xPosition=F,StickStatus.yPosition=E,StickStatus.x=((F-m)/v*100).toFixed(),StickStatus.y=((E-C)/v*100*-1).toFixed(),StickStatus.cardinalDirection=D(),i(StickStatus)},!1)):(f.addEventListener("mousedown",function(t){k=1},!1),document.addEventListener("mousemove",function(t){1===k&&(F=t.pageX,E=t.pageY,"BODY"===f.offsetParent.tagName.toUpperCase()?(F-=f.offsetLeft,E-=f.offsetTop):(F-=f.offsetParent.offsetLeft,E-=f.offsetParent.offsetTop),l.clearRect(0,0,f.width,f.height),W(),T(),StickStatus.xPosition=F,StickStatus.yPosition=E,StickStatus.x=((F-m)/v*100).toFixed(),StickStatus.y=((E-C)/v*100*-1).toFixed(),StickStatus.cardinalDirection=D(),i(StickStatus))},!1),document.addEventListener("mouseup",function(t){k=0,h&&(F=m,E=C);l.clearRect(0,0,f.width,f.height),W(),T(),StickStatus.xPosition=F,StickStatus.yPosition=E,StickStatus.x=((F-m)/v*100).toFixed(),StickStatus.y=((E-C)/v*100*-1).toFixed(),StickStatus.cardinalDirection=D(),i(StickStatus)},!1)),W(),T(),this.GetWidth=function(){return f.width},this.GetHeight=function(){return f.height},this.GetPosX=function(){return F},this.GetPosY=function(){return E},this.GetX=function(){return((F-m)/v*100).toFixed()},this.GetY=function(){return((E-C)/v*100*-1).toFixed()},this.GetDir=function(){return D()}};
+    </script>
+    <script>
+        
+let lastRequestTime = 0;
+const skipTime = 50;
+var stoped = false;
+
+var m1 = document.getElementById('m1');
+var m2 = document.getElementById('m2');
+var m3 = document.getElementById('m3');
+var m4 = document.getElementById('m4');
+
+var s1 = document.getElementById('s1');
+var s2 = document.getElementById('s2');
+var s3 = document.getElementById('s3');
+var s4 = document.getElementById('s4');
+
+var joy = new JoyStick('joystick',{
+    height : 200,
+    width : 200,
+    internalFillColor  : '#fff',
+    internalLineWidth  : 5,
+    internalStrokeColor  : '#ddc9c9',
+    externalLineWidth  : 5,
+    externalStrokeColor  : '#fff'
+},function(data){
+    data.x= Number(data.x);
+    data.y = Number(data.y);
+
+        if(data.x == 0 && data.y == 0){
+            
+            handleData(data);
+            return;
+        }
+
+    skipper(() => {
+        console.log(`${data.cardinalDirection} | X:${data.xPosition} | Y:${data.yPosition} | x:${data.x} | y:${data.y}`);
+        handleData(data);
+      });
+
+    
+});
+
+function skipper(callback) {
+    const currentTime = Date.now();
+    if (currentTime - lastRequestTime >= skipTime) {
+      lastRequestTime = currentTime;
+      callback();
+    }
+  }
+
+function mapRange(value, inMin, inMax, outMin, outMax) {
+    return (value - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
+  }
+
+function handleData(data){
+    if(data.y > 0){
+        controlAllMotors('forward');
+        setAllMotorsSpeed(mapRange(Math.abs(data.y),0,100,0,255));
+        stoped = false;
+    }else if(data.y < 0){
+        stoped = false;
+        controlAllMotors('backward');
+        setAllMotorsSpeed(mapRange(Math.abs(data.y),0,100,0,255));
+    }
+    
+
+    if (data.x > 0) {
+        let degree = mapRange(data.x, 0, 100, 90, 180); 
+        controlAllServos(degree);
+    } else if (data.x < 0) {
+        let degree = mapRange(data.x, -100, 0, 0, 90); 
+        controlAllServos(degree);
+    }
+    
+    if(!stoped && data.y == 0){
+        controlAllMotors('stop');
+        stoped = true;
+    }
+}
+
+function controlAllServos(degree){
+    if (s1.checked) {
+        fetch(`/s1/direction?angle=${degree}`);
+    }
+    if (s2.checked) {
+        fetch(`/s2/direction?angle=${degree}`);
+    }
+    if (s3.checked) {
+        fetch(`/s3/direction?angle=${degree}`);
+    }
+    if (s4.checked) {
+        fetch(`/s4/direction?angle=${degree}`);
+    }
+}
+
+function controlAllMotors(action) {
+    if(m1.checked){
+        fetch(`/m1/direction/${action}`);
+    }
+  
+   if(m2.checked){
+    fetch(`/m2/direction/${action}`);
+   }
+    if(m3.checked){
+        fetch(`/m3/direction/${action}`);
+    }
+    if(m4.checked){
+        fetch(`/m4/direction/${action}`);
+    }
+}
+function setAllMotorsSpeed(speed) {
+    if (m1.checked) {
+        fetch(`/m1/speed?speed=${speed}`);
+    }
+    if (m2.checked) {
+        fetch(`/m2/speed?speed=${speed}`);
+    }
+    if (m3.checked) {
+        fetch(`/m3/speed?speed=${speed}`);
+    }
+    if (m4.checked) {
+        fetch(`/m4/speed?speed=${speed}`);
+    }
+}
+
+function controlMotor(motor, action) {
+    fetch(`/m${motor}/direction/${action}`);
+}
+function setMotorSpeed(motor) {
+    const speed = document.getElementById(`speed${motor}`).value;
+    fetch(`/m${motor}/speed?speed=${speed}`);
+}
+
+
+    </script>
+</body>
+
+</html>
+)rawliteral";
