@@ -1,0 +1,20 @@
+here is the pin layouts 
+
+Driver 1
+
+38 = IN1
+40 = IN2
+42 = IN3
+44 = IN4
+6 = EN1;
+5 = EN2;
+
+
+Driver 2
+
+52 = IN1
+50 = IN2
+48 = IN3
+46 = IN4
+4 = EN3;
+3 = EN4;

@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"path": "ArduinoMega"
+		},
+		{
+			"name": "Nodemcu",
+			"path": "Nodemcu"
+		}
+	],
+	"settings": {}
+}
